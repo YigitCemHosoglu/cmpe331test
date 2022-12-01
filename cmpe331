@@ -1,0 +1,41 @@
+"""
+Stage : Development -01
+@author : Yiğit Cem Hoşoğlu , 120202046
+@author : Mert Mengilli, 119202055
+
+Stage : Development -02
+@author : Kurt Godel , 3333333
+@author : Alan Turing , 4444444
+
+Stage : Code Review
+@author : Donald Knuth , 5555555
+@author : Grace Hopper , 6666666
+ """
+
+
+
+
+import requests
+from bs4 import BeautifulSoup
+from lxml import etree as et
+import time
+import random
+import json
+import unidecode
+
+start_url = "https://www.imdb.com/chart/top"
+header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"}
+movie_urls = []
+
+response = requests.get(start_url, headers=header)
+soup = BeautifulSoup(response.content, 'html.parser')
+dom = et.HTML(str(soup))
+movie_urls_list = dom.xpath('//td[@class="titleColumn"]/a/@href')
+
+for i in movie_urls_list:
+    long_url = "https://www.imdb.com" + i
+    short_url = long_url.split("?")[0]
+    movie_urls.append(short_url)
+    
+def time_delay():
+    time.sleep(random.randint(2, 5))
